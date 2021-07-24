@@ -1,6 +1,8 @@
 package com.nmmoc7.neubulaeko;
 
+import com.nmmoc7.neubulaeko.entity.NeubulaekoSlimeChildEntity;
 import com.nmmoc7.neubulaeko.entity.NeubulaekoSlimeEntity;
+import com.nmmoc7.neubulaeko.renderer.NeubulaekoSlimeChildRenderer;
 import com.nmmoc7.neubulaeko.renderer.NeubulaekoSlimeRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
@@ -22,5 +24,6 @@ public class ClientRegisterHandler {
         Minecraft mc = Minecraft.getInstance();
         EntityRendererManager manager = mc.getRenderManager();
         manager.register(CommonRegisterHandler.NEUBULAEKO_SLIME_ENTITY, new NeubulaekoSlimeRenderer(manager));
+        manager.register(CommonRegisterHandler.NEUBULAEKO_SLIME_CHILD_ENTITY, new NeubulaekoSlimeChildRenderer(manager));
     }
 }
