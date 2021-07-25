@@ -1,0 +1,14 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "neubulaeko_slime:item/xyz"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "flower": 1
+      },
+      "model": "neubulaeko_slime:item/xyz2"
+    }
+  ]
+}

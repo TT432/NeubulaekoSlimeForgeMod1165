@@ -1,7 +1,7 @@
 package com.nmmoc7.neubulaeko;
 
 import com.nmmoc7.neubulaeko.entity.NeubulaekoSlimeEntity;
-import com.nmmoc7.neubulaeko.item.TestItem;
+import com.nmmoc7.neubulaeko.item.NeubulaekoSlimeMedalItem;
 import com.nmmoc7.neubulaeko.item.ZZZZFood;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
@@ -33,13 +33,13 @@ public class CommonRegisterHandler {
         );
     }
 
-    public static final TestItem TEST_ITEM = new TestItem();
+    public static final NeubulaekoSlimeMedalItem NEUBULAEKO_SLIME_MEDAL_ITEM = new NeubulaekoSlimeMedalItem();
     public static final ZZZZFood ZZZZ_FOOD = new ZZZZFood();
 
     @SubscribeEvent
     public static void onItemRegistry(RegistryEvent.Register<Item> event) {
         event.getRegistry().registerAll(
-                TEST_ITEM.setRegistryName(new ResourceLocation(NeubulaekoSlime.MOD_ID, "test_item")),
+                NEUBULAEKO_SLIME_MEDAL_ITEM.setRegistryName(new ResourceLocation(NeubulaekoSlime.MOD_ID, "neubulaeko_medal_item")),
                 ZZZZ_FOOD.setRegistryName(new ResourceLocation(NeubulaekoSlime.MOD_ID, "zzzz_food"))
         );
     }
