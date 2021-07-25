@@ -129,6 +129,7 @@ public class NeubulaekoSlimeEntity extends MobEntity {
         compound.putUniqueId("owner", owner);
         compound.putByte("food", getDataManager().get(FOOD_POINT));
         compound.putBoolean("child", getDataManager().get(CHILD));
+        compound.putInt("id", getEntityId());
     }
 
     @Override
