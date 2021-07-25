@@ -163,6 +163,11 @@ public class NeubulaekoSlimeEntity extends MobEntity {
                             NeubulaekoSlimeEntity.this.getMotion().add(0, 0.05, 0)
                     );
                 }
+                else {
+                    NeubulaekoSlimeEntity.this.setMotion(
+                            NeubulaekoSlimeEntity.this.getMotion().subtract(0, 0.05, 0)
+                    );
+                }
             }
         }
     }
