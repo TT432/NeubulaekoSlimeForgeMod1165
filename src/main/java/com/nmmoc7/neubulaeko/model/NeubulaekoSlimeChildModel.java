@@ -8,6 +8,8 @@ import com.mojang.blaze3d.vertex.IVertexBuilder;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.Entity;
+import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.util.math.vector.Vector3f;
 
 /**
  * @author DustW
@@ -33,6 +35,7 @@ public class NeubulaekoSlimeChildModel extends EntityModel<Entity> {
 	@Override
 	public void render(MatrixStack matrixStack, IVertexBuilder buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha){
 		matrixStack.push();
+		matrixStack.rotate(Vector3f.YP.rotationDegrees(180));
 		matrixStack.translate(0, -1 - 6 / 16F, 0);
 		bone.render(matrixStack, buffer, packedLight, packedOverlay);
 		matrixStack.pop();

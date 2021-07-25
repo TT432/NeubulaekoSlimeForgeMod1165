@@ -31,6 +31,7 @@ public class NeubulaekoSlimeRenderer extends EntityRenderer<NeubulaekoSlimeEntit
         matrixStackIn.scale(0.8f, 0.8f, 0.8f);
         matrixStackIn.rotate(Vector3f.ZN.rotationDegrees(180));
         IVertexBuilder ivertexbuilder = bufferIn.getBuffer(RenderType.getEntityTranslucent(this.getEntityTexture(entityIn)));
+        matrixStackIn.rotate(Vector3f.YP.rotationDegrees(entityYaw));
         if (entityIn.isChild()) {
             neubulaekoSlimeChildModel.render(matrixStackIn, ivertexbuilder,
                     packedLightIn, OverlayTexture.NO_OVERLAY, 1, 1, 1, 0.5F);

@@ -22,6 +22,7 @@ public class TestItem extends Item {
         if (!worldIn.isRemote) {
             NeubulaekoSlimeEntity entity = new NeubulaekoSlimeEntity(worldIn);
             entity.setPosition(playerIn.getPosX(), playerIn.getPosY(), playerIn.getPosZ());
+            entity.setOwner(playerIn);
             worldIn.addEntity(entity);
         }
         return super.onItemRightClick(worldIn, playerIn, handIn);

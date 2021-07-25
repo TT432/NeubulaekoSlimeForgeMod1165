@@ -22,9 +22,9 @@ import net.minecraftforge.fml.common.Mod;
 public class CommonRegisterHandler {
     public static final EntityType<NeubulaekoSlimeEntity> NEUBULAEKO_SLIME_ENTITY =
             EntityType.Builder.<NeubulaekoSlimeEntity>create(NeubulaekoSlimeEntity::new, EntityClassification.CREATURE)
-                    .size(0.25F, 0.25F)
-                    .trackingRange(4)
-                    .updateInterval(10).build("neubulaeko_slime_entity");
+                    .size(0.8F, 1.6F)
+                    .trackingRange(5)
+                    .updateInterval(1).build("neubulaeko_slime_entity");
 
     @SubscribeEvent
     public static void onEntityTypeRegistry(RegistryEvent.Register<EntityType<?>> event) {

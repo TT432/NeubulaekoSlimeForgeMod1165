@@ -8,6 +8,7 @@ import com.mojang.blaze3d.vertex.IVertexBuilder;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.Entity;
+import net.minecraft.util.math.vector.Vector3f;
 
 public class NeubulaekoSlimeModel extends EntityModel<Entity> {
 	private final ModelRenderer leg_left;
@@ -244,12 +245,16 @@ public class NeubulaekoSlimeModel extends EntityModel<Entity> {
 
 	@Override
 	public void render(MatrixStack matrixStack, IVertexBuilder buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha){
+		matrixStack.push();
+		matrixStack.rotate(Vector3f.YP.rotationDegrees(180));
+		matrixStack.translate(0, -1 - 6 / 16F, 0);
 		leg_left.render(matrixStack, buffer, packedLight, packedOverlay);
 		leg_right.render(matrixStack, buffer, packedLight, packedOverlay);
 		body.render(matrixStack, buffer, packedLight, packedOverlay);
 		arm_left.render(matrixStack, buffer, packedLight, packedOverlay);
 		head.render(matrixStack, buffer, packedLight, packedOverlay);
 		arm_right.render(matrixStack, buffer, packedLight, packedOverlay);
+		matrixStack.pop();
 	}
 
 	public void setRotationAngle(ModelRenderer modelRenderer, float x, float y, float z) {
