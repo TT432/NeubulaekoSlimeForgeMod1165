@@ -1,7 +1,5 @@
 package com.nmmoc7.neubulaeko.item;
 
-import com.nmmoc7.neubulaeko.NeubulaekoSlime;
-import com.nmmoc7.neubulaeko.entity.NeubulaekoSlimeChildEntity;
 import com.nmmoc7.neubulaeko.entity.NeubulaekoSlimeEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -22,15 +20,9 @@ public class TestItem extends Item {
     @Override
     public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {
         if (!worldIn.isRemote) {
-            NeubulaekoSlimeEntity entity = new NeubulaekoSlimeEntity(playerIn.getPosX(), playerIn.getPosY(), playerIn.getPosZ(), worldIn);
-            entity.setShooter(playerIn);
-            entity.shoot(0, 0, 0, 0, 0);
+            NeubulaekoSlimeEntity entity = new NeubulaekoSlimeEntity(worldIn);
+            entity.setPosition(playerIn.getPosX(), playerIn.getPosY(), playerIn.getPosZ());
             worldIn.addEntity(entity);
-
-            NeubulaekoSlimeChildEntity entity1 = new NeubulaekoSlimeChildEntity(playerIn.getPosX(), playerIn.getPosY(), playerIn.getPosZ(), worldIn);
-            entity1.setShooter(playerIn);
-            entity1.shoot(0, 0, 0, 0, 0);
-            worldIn.addEntity(entity1);
         }
         return super.onItemRightClick(worldIn, playerIn, handIn);
     }
