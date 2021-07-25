@@ -116,13 +116,19 @@ public class NeubulaekoSlimeEntity extends MobEntity {
     @Override
     public void readAdditional(CompoundNBT compound) {
         super.readAdditional(compound);
-        owner = compound.getUniqueId("owner");
+        if (compound.contains("owner")) {
+            owner = compound.getUniqueId("owner");
+            getDataManager().set(CHILD, compound.getBoolean("child"));
+            getDataManager().set(FOOD_POINT, compound.getByte("food"));
+        }
     }
 
     @Override
     public void writeAdditional(CompoundNBT compound) {
         super.writeAdditional(compound);
         compound.putUniqueId("owner", owner);
+        compound.putByte("food", getDataManager().get(FOOD_POINT));
+        compound.putBoolean("child", getDataManager().get(CHILD));
     }
 
     @Override
