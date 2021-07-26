@@ -6,7 +6,7 @@
   "overrides": [
     {
       "predicate": {
-        "flower": 1
+        "child": 1
       },
       "model": "neubulaeko_slime:item/xyz2"
     }
