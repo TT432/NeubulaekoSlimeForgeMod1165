@@ -2,11 +2,9 @@ package com.nmmoc7.neubulaeko.support.curios;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Direction;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.event.AttachCapabilitiesEvent;
 import top.theillusivec4.curios.api.CuriosCapability;
 
 import javax.annotation.Nonnull;

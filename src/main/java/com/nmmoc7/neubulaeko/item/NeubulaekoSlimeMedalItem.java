@@ -3,7 +3,6 @@ package com.nmmoc7.neubulaeko.item;
 import com.nmmoc7.neubulaeko.NeubulaekoSlime;
 import com.nmmoc7.neubulaeko.entity.NeubulaekoSlimeEntity;
 import com.nmmoc7.neubulaeko.support.curios.CuriosCapProvider;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
@@ -15,7 +14,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 
 import javax.annotation.Nullable;
-import java.util.UUID;
 
 /**
  * @author DustW
