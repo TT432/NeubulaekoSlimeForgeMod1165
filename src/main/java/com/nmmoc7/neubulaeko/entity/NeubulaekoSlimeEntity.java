@@ -1,6 +1,7 @@
 package com.nmmoc7.neubulaeko.entity;
 
 import com.nmmoc7.neubulaeko.CommonRegisterHandler;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.controller.MovementController;
@@ -44,11 +45,8 @@ public class NeubulaekoSlimeEntity extends MobEntity {
 
     @Override
     public boolean attackEntityFrom(DamageSource source, float amount) {
-        boolean flag = source.canHarmInCreative();
-        if (flag) {
-            remove();
-        }
-        return flag;
+        playSound(SoundEvents.ENTITY_SLIME_HURT, 1, 1);
+        return false;
     }
 
     @Override
@@ -60,7 +58,7 @@ public class NeubulaekoSlimeEntity extends MobEntity {
                 byte foodPoint = getDataManager().get(FOOD_POINT);
                 getDataManager().set(FOOD_POINT, (byte) (foodPoint + 1));
 
-                playSound(SoundEvents.ENTITY_SLIME_JUMP, 1, 1);
+                playSound(SoundEvents.ENTITY_SLIME_JUMP_SMALL, 1, 1);
 
                 if (foodPoint >= 100) {
                     getDataManager().set(CHILD, false);
@@ -85,15 +83,29 @@ public class NeubulaekoSlimeEntity extends MobEntity {
             PlayerEntity owner = world.getPlayerByUuid(this.owner);
             if (owner != null) {
                 Vector3d target = owner.getPositionVec();
-                if (getPositionVec().distanceTo(target) > 4) {
-                    getMoveHelper().setMoveTo(target.x, target.y, target.z, 2);
+
+                if (owner.getHeldItemMainhand().getItem() == CommonRegisterHandler.ZZZZ_FOOD) {
+                    target = target.subtract(owner.getLookVec().mul(-1, 0, -1).normalize().scale(2));
                 }
+                else {
+                    target = target.subtract(owner.getLookVec().mul(1, 0, 1).normalize().scale(2));
+                }
+
+                getMoveHelper().setMoveTo(target.x, target.y, target.z, 2);
+
+                this.rotationYaw = getTargetYaw(owner);
 
                 if (getPositionVec().distanceTo(target) > 64) {
                     setPosition(target.x, target.y, target.z);
                 }
             }
         }
+    }
+
+    protected float getTargetYaw(Entity target) {
+        double d0 = target.getPosX() - this.getPosX();
+        double d1 = target.getPosZ() - this.getPosZ();
+        return (float)(MathHelper.atan2(d1, d0) * (double)(180F / (float)Math.PI)) - 90.0F;
     }
 
     public void setOwner(PlayerEntity owner) {
@@ -146,19 +158,22 @@ public class NeubulaekoSlimeEntity extends MobEntity {
             Vector3d vector3d = new Vector3d(this.posX - NeubulaekoSlimeEntity.this.getPosX(), this.posY - NeubulaekoSlimeEntity.this.getPosY(), this.posZ - NeubulaekoSlimeEntity.this.getPosZ());
             double d0 = vector3d.length();
             if (this.action == MovementController.Action.MOVE_TO) {
-                NeubulaekoSlimeEntity.this.setMotion(NeubulaekoSlimeEntity.this.getMotion().add(vector3d.scale(this.speed * 0.05D / d0)).mul(1, 0, 1));
-                Vector3d vector3d1 = NeubulaekoSlimeEntity.this.getMotion();
-                NeubulaekoSlimeEntity.this.rotationYaw = -((float) MathHelper.atan2(vector3d1.x, vector3d1.z)) * (180F / (float)Math.PI);
-                NeubulaekoSlimeEntity.this.renderYawOffset = NeubulaekoSlimeEntity.this.rotationYaw;
-
-                if (posY > NeubulaekoSlimeEntity.this.getPosY()) {
-                    NeubulaekoSlimeEntity.this.setMotion(
-                            NeubulaekoSlimeEntity.this.getMotion().add(0, 0.05, 0)
-                    );
+                if (NeubulaekoSlimeEntity.this.getPosX() < posX + 0.5 && NeubulaekoSlimeEntity.this.getPosX() > posX - 0.5
+                && NeubulaekoSlimeEntity.this.getPosY() < posX + 0.5 && NeubulaekoSlimeEntity.this.getPosY() > posX - 0.5) {
+                    action = Action.WAIT;
                 }
                 else {
+                    NeubulaekoSlimeEntity.this.setMotion(NeubulaekoSlimeEntity.this.getMotion().add(vector3d.scale(this.speed * 0.05D / d0)).mul(1, 0, 1));
+                }
+
+                if (NeubulaekoSlimeEntity.this.getPosY() < posY + 0.5) {
                     NeubulaekoSlimeEntity.this.setMotion(
-                            NeubulaekoSlimeEntity.this.getMotion().subtract(0, 0.05, 0)
+                            NeubulaekoSlimeEntity.this.getMotion().add(0, 0.5, 0)
+                    );
+                }
+                else if (NeubulaekoSlimeEntity.this.getPosY() > posY + 1.5){
+                    NeubulaekoSlimeEntity.this.setMotion(
+                            NeubulaekoSlimeEntity.this.getMotion().subtract(0, 0.5, 0)
                     );
                 }
             }

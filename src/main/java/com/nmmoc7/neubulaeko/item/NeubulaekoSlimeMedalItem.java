@@ -73,12 +73,15 @@ public class NeubulaekoSlimeMedalItem extends Item {
     public static void remove(ItemStack itemstack, World worldIn) {
         if (itemstack.getOrCreateTag().contains("addInfo")) {
             int id = ((CompoundNBT) itemstack.getOrCreateTag().get("addInfo")).getInt("id");
-            NeubulaekoSlimeEntity entity = (NeubulaekoSlimeEntity) worldIn.getEntityByID(id);
-            if (entity != null) {
-                entity.remove();
-                CompoundNBT nbt = new CompoundNBT();
-                entity.writeAdditional(nbt);
-                itemstack.getOrCreateTag().put("addInfo", nbt);
+
+            if (worldIn.getEntityByID(id) instanceof NeubulaekoSlimeEntity) {
+                NeubulaekoSlimeEntity slime = (NeubulaekoSlimeEntity) worldIn.getEntityByID(id);
+                if (slime != null) {
+                    slime.remove();
+                    CompoundNBT nbt = new CompoundNBT();
+                    slime.writeAdditional(nbt);
+                    itemstack.getOrCreateTag().put("addInfo", nbt);
+                }
             }
             itemstack.getOrCreateTag().putBoolean("open", false);
         }
