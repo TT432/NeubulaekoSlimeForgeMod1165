@@ -3,6 +3,7 @@ package com.nmmoc7.neubulaeko.item;
 import com.nmmoc7.neubulaeko.NeubulaekoSlime;
 import com.nmmoc7.neubulaeko.entity.NeubulaekoSlimeEntity;
 import com.nmmoc7.neubulaeko.support.curios.CuriosCapProvider;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
@@ -10,10 +11,13 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 
 import javax.annotation.Nullable;
+import java.util.List;
 
 /**
  * @author DustW
@@ -21,6 +25,13 @@ import javax.annotation.Nullable;
 public class NeubulaekoSlimeMedalItem extends Item {
     public NeubulaekoSlimeMedalItem() {
         super(new Properties().group(ItemGroup.TOOLS).maxStackSize(1));
+    }
+
+    @Override
+    public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
+        tooltip.add(new StringTextComponent("模型来源： thousvillages"));
+        tooltip.add(new StringTextComponent("贴图来源： Neubulaeko, MalayP"));
+        super.addInformation(stack, worldIn, tooltip, flagIn);
     }
 
     @Nullable
