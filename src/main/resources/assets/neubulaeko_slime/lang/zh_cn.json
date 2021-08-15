@@ -1,5 +1,6 @@
 {
   "item.neubulaeko_slime.zzzz_food": "土球食物",
   "tooltip.zzzz_food": "星云史莱姆最喜欢的食物",
-  "item.neubulaeko_slime.neubulaeko_medal_item": "星云史莱姆徽章"
+  "item.neubulaeko_slime.neubulaeko_medal_item": "星云史莱姆徽章",
+  "entity.neubulaeko_slime.neubulaeko_slime_entity": "Neubulaeko"
 }
