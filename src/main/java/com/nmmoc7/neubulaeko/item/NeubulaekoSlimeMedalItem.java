@@ -14,6 +14,7 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
@@ -32,18 +33,34 @@ public class NeubulaekoSlimeMedalItem extends Item {
 
     @Override
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
+        tooltip.add(new StringTextComponent(" "));
         tooltip.add(new StringTextComponent("手持土球会到你面前来"));
         tooltip.add(new StringTextComponent("右键还可以喂食"));
+        tooltip.add(new StringTextComponent(" "));
+        tooltip.add(new StringTextComponent("喂食进度: " + new StringTextComponent(getFoodState(stack) + " / 100").getString()));
         tooltip.add(new StringTextComponent(" "));
         tooltip.add(new StringTextComponent("主人: " + getOwnerName(stack, worldIn)));
         tooltip.add(new StringTextComponent("史莱姆UUID: " + getSlimeUUID(stack)));
         tooltip.add(new StringTextComponent(" "));
         tooltip.add(new StringTextComponent("模型来源： thousvillages"));
         tooltip.add(new StringTextComponent("贴图来源： Neubulaeko, MalayP"));
+        tooltip.add(new StringTextComponent(" "));
         super.addInformation(stack, worldIn, tooltip, flagIn);
     }
 
-    public CompoundNBT getInfo(ItemStack stack) {
+    public static int getFoodState(ItemStack stack) {
+        return hasInfo(stack) ? Math.min(getInfo(stack).getInt("food"), 100) : 0;
+    }
+
+    public static boolean isOpen(ItemStack stack) {
+        return stack.getOrCreateTag().getBoolean("open");
+    }
+
+    public static boolean hasInfo(ItemStack stack) {
+        return stack.getOrCreateTag().contains("addInfo");
+    }
+
+    public static CompoundNBT getInfo(ItemStack stack) {
         if (stack.getOrCreateTag().contains("addInfo")) {
             return stack.getOrCreateTag().getCompound("addInfo");
         }
@@ -51,7 +68,7 @@ public class NeubulaekoSlimeMedalItem extends Item {
         return new CompoundNBT();
     }
 
-    public UUID getOwner(ItemStack itemStack) {
+    public static UUID getOwner(ItemStack itemStack) {
         if (getInfo(itemStack).contains("owner")) {
             return getInfo(itemStack).getUniqueId("owner");
         }
@@ -59,7 +76,7 @@ public class NeubulaekoSlimeMedalItem extends Item {
         return null;
     }
 
-    public String getOwnerName(ItemStack itemStack, World world) {
+    public static String getOwnerName(ItemStack itemStack, World world) {
         if (getOwner(itemStack) != null) {
             PlayerEntity player = world.getPlayerByUuid(getOwner(itemStack));
 
@@ -75,7 +92,7 @@ public class NeubulaekoSlimeMedalItem extends Item {
         }
     }
 
-    public String getSlimeUUID(ItemStack stack) {
+    public static String getSlimeUUID(ItemStack stack) {
         return getInfo(stack).contains("id") ? getInfo(stack).getUniqueId("id").toString() : "未分配";
     }
 
@@ -92,7 +109,7 @@ public class NeubulaekoSlimeMedalItem extends Item {
     public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {
         if (!worldIn.isRemote) {
             ItemStack itemstack = playerIn.getHeldItem(handIn);
-            if (itemstack.getOrCreateTag().getBoolean("open")) {
+            if (isOpen(itemstack)) {
                 remove(itemstack, worldIn);
             }
             else {
@@ -115,8 +132,8 @@ public class NeubulaekoSlimeMedalItem extends Item {
             entity.setPosition(playerIn.getPosX(), playerIn.getPosY(), playerIn.getPosZ());
             entity.setOwner(playerIn);
 
-            if (itemstack.getOrCreateTag().contains("addInfo")) {
-                entity.readAdditional(itemstack.getOrCreateTag().getCompound("addInfo"));
+            if (hasInfo(itemstack)) {
+                entity.readAdditional(getInfo(itemstack));
             } else {
                 CompoundNBT nbt = new CompoundNBT();
                 entity.writeAdditional(nbt);
@@ -131,7 +148,7 @@ public class NeubulaekoSlimeMedalItem extends Item {
 
     public static void remove(ItemStack itemstack, World worldIn) {
         if (!worldIn.isRemote && itemstack.getOrCreateTag().contains("addInfo")) {
-            UUID id = ((CompoundNBT) itemstack.getOrCreateTag().get("addInfo")).getUniqueId("id");
+            UUID id = getInfo(itemstack).getUniqueId("id");
             Entity entity = ((ServerWorld) worldIn).getEntityByUuid(id);
 
             if (entity instanceof NeubulaekoSlimeEntity) {
@@ -152,14 +169,13 @@ public class NeubulaekoSlimeMedalItem extends Item {
             if (!worldIn.isRemote && entityIn instanceof PlayerEntity) {
                 ServerWorld server = (ServerWorld) worldIn;
 
-                if (stack.getOrCreateTag().contains("addInfo")) {
-                    CompoundNBT info = (CompoundNBT) stack.getOrCreateTag().get("addInfo");
-                    UUID id = info.getUniqueId("id");
+                if (hasInfo(stack)) {
+                    UUID id = getInfo(stack).getUniqueId("id");
                     Entity entity = server.getEntityByUuid(id);
 
-                    if (entity != null && info.getBoolean("open")) {
+                    if (entity != null && isOpen(stack)) {
                         if (entity instanceof NeubulaekoSlimeEntity) {
-                            ((NeubulaekoSlimeEntity) entity).writeAdditional(info);
+                            ((NeubulaekoSlimeEntity) entity).writeAdditional(getInfo(stack));
                         }
                     }
                 }
