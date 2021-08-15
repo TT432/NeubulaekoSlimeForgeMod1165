@@ -11,25 +11,28 @@ import top.theillusivec4.curios.api.type.capability.ICurio;
  */
 public class NeubulaekoMedal implements ICurio {
     ItemStack curio;
-    public boolean equip;
 
     public NeubulaekoMedal(ItemStack itemStack) {
         curio = itemStack;
     }
 
     @Override
-    public void onUnequip(String identifier, int index, LivingEntity livingEntity) {
+    public void onEquip(String identifier, int index, LivingEntity livingEntity) {
         if (livingEntity instanceof PlayerEntity) {
-            equip = true;
-            NeubulaekoSlimeMedalItem.remove(curio, livingEntity.world);
+            if (curio.getOrCreateTag().getBoolean("open")) {
+                NeubulaekoSlimeMedalItem.remove(curio, livingEntity.world);
+            }
+            NeubulaekoSlimeMedalItem.add((PlayerEntity) livingEntity, curio, livingEntity.world);
         }
     }
 
     @Override
-    public void onEquip(String identifier, int index, LivingEntity livingEntity) {
+    public void onUnequip(String identifier, int index, LivingEntity livingEntity) {
         if (livingEntity instanceof PlayerEntity) {
-            equip = false;
-            NeubulaekoSlimeMedalItem.add((PlayerEntity) livingEntity, curio, livingEntity.world);
+            if (!curio.getOrCreateTag().getBoolean("open")) {
+                NeubulaekoSlimeMedalItem.add((PlayerEntity) livingEntity, curio, livingEntity.world);
+            }
+            NeubulaekoSlimeMedalItem.remove(curio, livingEntity.world);
         }
     }
 

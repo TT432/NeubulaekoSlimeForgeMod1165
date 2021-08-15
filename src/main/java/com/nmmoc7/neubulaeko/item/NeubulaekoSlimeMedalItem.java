@@ -157,13 +157,7 @@ public class NeubulaekoSlimeMedalItem extends Item {
                     UUID id = info.getUniqueId("id");
                     Entity entity = server.getEntityByUuid(id);
 
-                    if (entity == null && info.getBoolean("open")) {
-                        info.putBoolean("open", false);
-                    }
-                    else if (entity != null && !info.getBoolean("open")) {
-                        info.putBoolean("open", true);
-                    }
-                    else if (entity != null && info.getBoolean("open")) {
+                    if (entity != null && info.getBoolean("open")) {
                         if (entity instanceof NeubulaekoSlimeEntity) {
                             ((NeubulaekoSlimeEntity) entity).writeAdditional(info);
                         }
