@@ -148,7 +148,7 @@ public class NeubulaekoSlimeMedalItem extends Item {
 
     @Override
     public void inventoryTick(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
-        if (worldIn.getGameTime() % (20 * 5) == 0) {
+        if (worldIn.getGameTime() % (20) == 0) {
             if (!worldIn.isRemote && entityIn instanceof PlayerEntity) {
                 ServerWorld server = (ServerWorld) worldIn;
 
