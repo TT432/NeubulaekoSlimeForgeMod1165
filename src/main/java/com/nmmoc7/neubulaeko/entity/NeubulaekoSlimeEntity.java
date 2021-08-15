@@ -124,7 +124,7 @@ public class NeubulaekoSlimeEntity extends MobEntity {
             owner = compound.getUniqueId("owner");
             getDataManager().set(CHILD, compound.getBoolean("child"));
             getDataManager().set(FOOD_POINT, compound.getByte("food"));
-            setUniqueId(compound.getUniqueId("id"));
+            setUniqueId(compound.contains("slime") ? compound.getUniqueId("slime") : getUniqueID());
         }
     }
 
@@ -134,7 +134,7 @@ public class NeubulaekoSlimeEntity extends MobEntity {
         compound.putUniqueId("owner", owner);
         compound.putByte("food", getDataManager().get(FOOD_POINT));
         compound.putBoolean("child", getDataManager().get(CHILD));
-        compound.putUniqueId("id", getUniqueID());
+        compound.putUniqueId("slime", getUniqueID());
     }
 
     @Override

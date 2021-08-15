@@ -92,8 +92,16 @@ public class NeubulaekoSlimeMedalItem extends Item {
         }
     }
 
+    public static UUID getUUID(ItemStack stack) {
+        return getInfo(stack).contains("slime") ? getInfo(stack).getUniqueId("slime") : null;
+    }
+
+    public static void setUUID(ItemStack stack, UUID uuid) {
+        getInfo(stack).putUniqueId("slime", uuid);
+    }
+
     public static String getSlimeUUID(ItemStack stack) {
-        return getInfo(stack).contains("id") ? getInfo(stack).getUniqueId("id").toString() : "未分配";
+        return getUUID(stack) != null ? getUUID(stack).toString() : "未分配";
     }
 
     @Nullable
@@ -133,6 +141,10 @@ public class NeubulaekoSlimeMedalItem extends Item {
             entity.setOwner(playerIn);
 
             if (hasInfo(itemstack)) {
+                if (entity.getUniqueID() != getUUID(itemstack)) {
+                    setUUID(itemstack, entity.getUniqueID());
+                }
+
                 entity.readAdditional(getInfo(itemstack));
             } else {
                 CompoundNBT nbt = new CompoundNBT();
@@ -147,18 +159,21 @@ public class NeubulaekoSlimeMedalItem extends Item {
     }
 
     public static void remove(ItemStack itemstack, World worldIn) {
-        if (!worldIn.isRemote && itemstack.getOrCreateTag().contains("addInfo")) {
-            UUID id = getInfo(itemstack).getUniqueId("id");
-            Entity entity = ((ServerWorld) worldIn).getEntityByUuid(id);
+        if (!worldIn.isRemote) {
+            if (getUUID(itemstack) != null) {
+                UUID id = getUUID(itemstack);
+                Entity entity = ((ServerWorld) worldIn).getEntityByUuid(id);
 
-            if (entity instanceof NeubulaekoSlimeEntity) {
-                NeubulaekoSlimeEntity slime = (NeubulaekoSlimeEntity) entity;
+                if (entity instanceof NeubulaekoSlimeEntity) {
+                    NeubulaekoSlimeEntity slime = (NeubulaekoSlimeEntity) entity;
 
-                slime.remove();
-                CompoundNBT nbt = new CompoundNBT();
-                slime.writeAdditional(nbt);
-                itemstack.getOrCreateTag().put("addInfo", nbt);
+                    slime.remove();
+                    CompoundNBT nbt = new CompoundNBT();
+                    slime.writeAdditional(nbt);
+                    itemstack.getOrCreateTag().put("addInfo", nbt);
+                }
             }
+            
             itemstack.getOrCreateTag().putBoolean("open", false);
         }
     }
@@ -169,8 +184,8 @@ public class NeubulaekoSlimeMedalItem extends Item {
             if (!worldIn.isRemote && entityIn instanceof PlayerEntity) {
                 ServerWorld server = (ServerWorld) worldIn;
 
-                if (hasInfo(stack)) {
-                    UUID id = getInfo(stack).getUniqueId("id");
+                if (getUUID(stack) != null) {
+                    UUID id = getUUID(stack);
                     Entity entity = server.getEntityByUuid(id);
 
                     if (entity != null && isOpen(stack)) {
