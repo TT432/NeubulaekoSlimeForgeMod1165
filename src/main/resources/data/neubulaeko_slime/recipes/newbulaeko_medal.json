@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "NDD",
+    "DAD",
+    "DDN"
+  ],
+  "key": {
+    "N": {
+      "item": "air"
+    },
+    "D": {
+      "item": "slime_ball"
+    },
+    "A": {
+      "item": "neubulaeko_slime:zzzz_food"
+    }
+  },
+  "result": {
+    "item": "neubulaeko_slime:neubulaeko_medal_item",
+    "count": 1
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "type": "crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "grass"
+    },
+    {
+      "item": "poppy"
+    },
+    {
+      "item": "dandelion"
+    },
+    {
+      "item": "cornflower"
+    }
+  ],
+  "result": {
+    "item": "neubulaeko_slime:zzzz_food"
+  }
+}
